@@ -6,12 +6,18 @@ app = Flask(__name__)
 app.secret_key = "testing"
 client = pymongo.MongoClient("mongodb+srv://admin:0xIIagmADdNCgowK@cluster0.3aqrglf.mongodb.net/?retryWrites=true&w"
                              "=majority")
-db = client.get_database('users')
+db = client.get_database('T4U')
 records = db.users
 
+ACCESS = {
+    'guest': 0,
+    'user': 1,
+    'admin': 2
+}
 
-@app.route("/", methods=['post', 'get'])
-def index():
+
+@app.route("/register", methods=['post', 'get'])
+def register():
     message = ''
     if "email" in session:
         return redirect(url_for("logged_in"))
@@ -26,23 +32,23 @@ def index():
         email_found = records.find_one({"email": email})
         if user_found:
             message = 'There already is a user by that name'
-            return render_template('index.html', message=message)
+            return render_template('register.html', message=message)
         if email_found:
             message = 'This email already exists in database'
-            return render_template('index.html', message=message)
+            return render_template('register.html', message=message)
         if password1 != password2:
             message = 'Passwords should match!'
-            return render_template('index.html', message=message)
+            return render_template('register.html', message=message)
         else:
             hashed = bcrypt.hashpw(password2.encode('utf-8'), bcrypt.gensalt())
-            user_input = {'name': user, 'email': email, 'password': hashed}
+            user_input = {'name': user, 'email': email, 'password': hashed, 'access_lvl': ACCESS['user']}
             records.insert_one(user_input)
 
             user_data = records.find_one({"email": email})
             new_email = user_data['email']
 
-            return render_template('logged_in.html', email=new_email)
-    return render_template('index.html')
+            return render_template('index.html', email=new_email)
+    return render_template('register.html')
 
 
 @app.route('/logged_in')
@@ -51,11 +57,11 @@ def logged_in():
         email = session["email"]
         return render_template('logged_in.html', email=email)
     else:
-        return redirect(url_for("login"))
+        return redirect(url_for("index"))
 
 
-@app.route("/login", methods=["POST", "GET"])
-def login():
+@app.route("/", methods=["POST", "GET"])
+def index():
     message = 'Please login to your account'
     if "email" in session:
         return redirect(url_for("logged_in"))
@@ -76,11 +82,11 @@ def login():
                 if "email" in session:
                     return redirect(url_for("logged_in"))
                 message = 'Wrong password'
-                return render_template('login.html', message=message)
+                return render_template('index.html', message=message)
         else:
             message = 'Email not found'
-            return render_template('login.html', message=message)
-    return render_template('login.html', message=message)
+            return render_template('index.html', message=message)
+    return render_template('index.html', message=message)
 
 
 @app.route("/logout", methods=["POST", "GET"])
