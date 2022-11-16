@@ -9,32 +9,38 @@
     </div>
 {% endif %}
 
-<form action="" method="post">
-    <div class="form-group">
-        <label for="Fullname">Full name</label>
-        <input name="fullname" class="form-control" id="inputFullName" aria-describedby="emailHelp" placeholder="Enter full name">
-        <small id="fullName" class="form-text text-muted">Please enter your full name(First name and Last name)</small>
-  </div>
-  <div class="form-group">
-        <label for="InputEmail">Email address</label>
-        <input name="email" class="form-control" id="InputEmail"  placeholder="Enter email">
-        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-  </div>
-  <div class="form-group">
-    <label for="InputPassword">Password</label>
-    <input type="password" name="password1" class="form-control" id="InputPassword" placeholder="Password">
-  </div>
+<main class="form-signin">
+<form action="" method="POST">
+    <img class="logo" src="/static/images/busFinalLogo2.png" alt="logo">
+    <h1 class="h3 mb-3 fw-normal">Register Account</h1>
 
-    <div class="form-group">
-    <label for="InputPassword2">Repeat Password</label>
-    <input type="password" name="password2" class="form-control" id="InputPassword2" placeholder="Repeat Password">
-
+    <div class="form-floating">
+        <input type="text" name="name" class="form-control" id="floatingFullname" placeholder="First name Last name">
+        <label for="floatingFullname">Fullname</label>
     </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-
-
+    </br>
+    <div class="form-floating">
+        <input type="email" name="email" class="form-control" id="floatingEmail" placeholder="name@example.com">
+        <label for="floatingEmail">Email address</label>
+    </div>
+    </br>
+    <div class="form-floating">
+        <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
+        <label for="floatingPassword">Password</label>
+    </div>
+    <div class="form-floating">
+        <input type="password" name="password" class="form-control" id="floatingConfirmPassword" placeholder="Confirm Password">
+        <label for="floatingConfirmPassword">Confirm Password</label>
+    </div>
+    </br>
+    <div class="login">
+      <label>
+        <a href="/">Login to your Account</a>
+      </label>
+    </div>
+    </br>
+    <button class="w-100 btn btn-lg" type="submit">Sign in</button>
+    <p class="mt-2 mb-2 text-muted">&copy; Transport4U 2022</p>
 </form>
-
-
-
+</main>
 {% endblock %}

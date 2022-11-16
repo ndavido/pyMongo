@@ -93,7 +93,7 @@ def index():
 def logout():
     if "email" in session:
         session.pop("email", None)
-        return render_template("signout.html")
+        return redirect(url_for("index"))
     else:
         return render_template('index.html')
 
